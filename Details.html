@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Students List</title>
+
+    <script type="text/javascript">
+        function search() {
+            str = document.getElementById("studentSearch").value
+            if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    let result = JSON.parse(xmlhttp.response);
+                    document.getElementById("listResults").innerHTML = result.map(item =>
+                        `<li>${item.studentId} ${item.firstName} ${item.lastName} ${item.createdDate}</li>`);
+                }
+            }
+            xmlhttp.open("GET", "https://ip-uacs.herokuapp.com/api/student/", true);
+            xmlhttp.send();
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class="container bg-dark">
+        <nav class="navbar navbar-dark bg-dark">
+          <a class="navbar-brand" href="#">Damjan GJorigev 4532</a>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-3 bg-primary">
+                <br>
+                <a class="btn btn-outline-light" href="Conversion.html" role="button">Convert</a>
+                <br>
+                <br>
+                <a class="btn btn-outline-light" href="Details.html" role="button">Details</a>
+                <br>
+                <br>
+                <a class="btn btn-outline-light" href="NewStudent.html" role="button">New</a>
+                <p></p>
+          </div>
+
+          <div class="col-9 bg-light">
+            <form id="callDB" class="col md-12">
+                <p></p>
+                <h4>Search for a student or leave blank for all</h4>
+                <input type="text" class="form-control" name="studentSearch" id="studentSearch">  
+                <p></p>
+                <button class="btn btn-outline-primary" type="button" onclick="search()" id="btnSearch">Show</button>
+                <p></p>
+                <h4>Students:</h4>
+                <ol id="listResults">
+                </ol>
+                
+            </form>
+          </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
